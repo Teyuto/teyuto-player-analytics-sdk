@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teyuto Analytics with HLS.js Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="../src/TeyutoPlayerAnalytics.js"></script>
+</head>
+<body>
+    <video id="video" controls width="640" height="360"></video>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var video = document.getElementById('video');
+
+            if (Hls.isSupported()) {
+                var hls = new Hls();
+                hls.loadSource('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8');
+                hls.attachMedia(video);
+
+                // Initialize Teyuto Analytics
+                var analytics = new TeyutoPlayerAnalytics.HlsJsAdapter('your-auth-token-here');
+                analytics.init(hls, 'your-video-id-here');
+
+                // Optional: Log when analytics events occur
+                hls.on(Hls.Events.PLAYING, function() {
+                    console.log('Video started playing');
+                });
+
+                hls.on(Hls.Events.PAUSED, function() {
+                    console.log('Video paused');
+                });
+
+                hls.on(Hls.Events.ENDED, function() {
+                    console.log('Video ended');
+                });
+
+                // Clean up on page unload
+                window.addEventListener('beforeunload', function() {
+                    analytics.destroy();
+                    hls.destroy();
+                });
+            }
+            // For browsers that don't support MSE
+            else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
+                // Note: In this case, you would need to implement a different analytics approach
+            }
+        });
+    </script>
+</body>
+</html>

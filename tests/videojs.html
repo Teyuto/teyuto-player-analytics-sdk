@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teyuto Analytics with Video.js Example (Debug)</title>
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.min.css" rel="stylesheet">
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+    <script src="../src/TeyutoPlayerAnalytics.js"></script>
+</head>
+<body>
+    <video id="my-video" class="video-js" controls preload="auto" width="640" height="360">
+        <source src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" type="application/x-mpegURL">
+    </video>
+
+    <script>
+        // Override fetch to log API calls
+        const originalFetch = window.fetch;
+        window.fetch = function() {
+            console.log('API Call:', arguments[0], arguments[1]);
+            return originalFetch.apply(this, arguments);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Initializing Video.js player');
+            var player = videojs('my-video', {
+                html5: {
+                    hls: {
+                        overrideNative: true
+                    }
+                }
+            });
+
+            player.ready(function() {
+                console.log('Video.js player is ready');
+                console.log('Initializing Teyuto Analytics');
+                var analytics = new TeyutoPlayerAnalytics.VideoJsAdapter('your-auth-token-here');
+                analytics.init(player, 'your-video-id-here');
+
+                player.on('loadedmetadata', function() {
+                    console.log('Video metadata loaded, trying to play');
+                    player.play().then(() => {
+                        console.log('Playback started successfully');
+                    }).catch(error => {
+                        console.error('Error auto-playing:', error);
+                    });
+                });
+
+                // Optional: Log when analytics events occur
+                player.on('play', function() {
+                    console.log('Video started playing');
+                });
+
+                player.on('pause', function() {
+                    console.log('Video paused');
+                });
+
+                player.on('ended', function() {
+                    console.log('Video ended');
+                });
+
+                // Clean up on page unload
+                window.addEventListener('beforeunload', function() {
+                    console.log('Page unloading, cleaning up');
+                    analytics.destroy();
+                    player.dispose();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
