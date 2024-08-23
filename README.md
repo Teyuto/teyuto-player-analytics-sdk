@@ -15,6 +15,10 @@ Teyuto Player Analytics SDK enables easy integration of analytics tracking for v
 Include the SDK in your HTML:
 
 ```html
+<script src="https://cdn.jsdelivr.net/gh/Teyuto/teyuto-player-analytics-sdk@production/src/TeyutoPlayerAnalytics.min.js"></script>
+```
+or
+```html
 <script src="path/to/TeyutoPlayerAnalytics.js"></script>
 ```
 
