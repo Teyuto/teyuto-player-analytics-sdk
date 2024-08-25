@@ -20,8 +20,8 @@
                 hls.attachMedia(video);
 
                 // Initialize Teyuto Analytics
-                var analytics = new TeyutoPlayerAnalytics.HlsJsAdapter('your-auth-token-here');
-                analytics.init(hls, 'your-video-id-here');
+                var analytics = new TeyutoPlayerAnalytics.HlsJsAdapter('your-channel-public','user-token');
+                analytics.init(hls, 'video-id');
 
                 // Optional: Log when analytics events occur
                 hls.on(Hls.Events.PLAYING, function() {

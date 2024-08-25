@@ -34,8 +34,8 @@
             player.ready(function() {
                 console.log('Video.js player is ready');
                 console.log('Initializing Teyuto Analytics');
-                var analytics = new TeyutoPlayerAnalytics.VideoJsAdapter('your-auth-token-here');
-                analytics.init(player, 'your-video-id-here');
+                var analytics = new TeyutoPlayerAnalytics.VideoJsAdapter('your-channel-public','user-token');
+                analytics.init(player, 'video-id');
 
                 player.on('loadedmetadata', function() {
                     console.log('Video metadata loaded, trying to play');
