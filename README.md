@@ -31,12 +31,6 @@ Include the SDK in your HTML:
 <script src="https://cdn.jsdelivr.net/gh/Teyuto/teyuto-player-analytics-sdk@production/src/TeyutoPlayerAnalytics.min.js"></script>
 ```
 
-or
-
-```html
-<script src="path/to/TeyutoPlayerAnalytics.js"></script>
-```
-
 ### Option 2: As a Module
 
 Install via npm:
