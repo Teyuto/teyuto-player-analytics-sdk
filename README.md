@@ -10,6 +10,17 @@
 
 Teyuto Player Analytics SDK enables easy integration of analytics tracking for video playback using Video.js, HLS.js, Plyr, or Shaka Player.
 
+## Compatible Players
+<p align="center">
+  <img src="https://videojs.com/logo-white.png" alt="Video.js" height="50">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/video-dev/hls.js/master/docs/logo.svg" alt="HLS.js" height="50">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <font size="15" color="#00b2ff">Plyr</font>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://github.com/shaka-project/shaka-player/raw/main/docs/shaka-player-logo.png" alt="Shaka Player" height="50">
+</p>
+
 ## Installation
 
 ### Option 1: Script Tag
