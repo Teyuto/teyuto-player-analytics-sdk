@@ -2,7 +2,7 @@
     "name": "@teyuto/teyuto-player-analytics",
     "author": "Teyuto",
     "license": "MIT",
-    "version": "1.0.1",
+    "version": "1.0.3",
     "description": " Teyuto Player Analytics SDK enables easy integration of analytics tracking for video playback using various popular players including Video.js, HLS.js, Plyr, and Shaka Player.",
     "repository": {
       "type": "git",

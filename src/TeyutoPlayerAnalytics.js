@@ -26,6 +26,12 @@
         }
 
         init(player, videoId) {
+            if (!player) {
+                throw new Error('Player is required');
+            }
+            if (!videoId) {
+                throw new Error('Video ID is required');
+            }    
             this.player = player;
             this.videoId = videoId;
             this.attachEventListeners();
@@ -235,20 +241,20 @@
         }
     
         attachEventListeners() {
-            console.log('Attempting to attach Shaka Player event listeners');
+            // console.log('Attempting to attach Shaka Player event listeners');
             this.tryAttachListeners();
         }
     
         tryAttachListeners() {
             const videoElement = this.player.getMediaElement();
             if (videoElement) {
-                console.log('Video element found, attaching listeners');
+                // console.log('Video element found, attaching listeners');
                 this.attachListenersToVideo(videoElement);
                 if (this.retryInterval) {
                     clearInterval(this.retryInterval);
                 }
             } else {
-                console.log('Video element not found, will retry');
+                // console.log('Video element not found, will retry');
                 if (!this.retryInterval) {
                     this.retryInterval = setInterval(() => {
                         this.retryCount++;
