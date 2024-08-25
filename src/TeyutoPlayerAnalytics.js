@@ -258,7 +258,7 @@
                             return;
                         }
                         this.tryAttachListeners();
-                    }, 500); // Riprova ogni 500ms
+                    }, 500); // retry
                 }
             }
         }
