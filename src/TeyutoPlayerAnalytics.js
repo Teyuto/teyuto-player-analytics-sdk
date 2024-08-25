@@ -227,32 +227,98 @@
     }
 
     class TeyutoShakaPlayerAdapter extends TeyutoPlayerAnalytics {
+        constructor(channel, token = null) {
+            super(channel, token);
+            this.retryInterval = null;
+            this.maxRetries = 10;
+            this.retryCount = 0;
+        }
+    
         attachEventListeners() {
-            this.player.addEventListener('play', this.onPlay.bind(this));
-            this.player.addEventListener('pause', this.onPause.bind(this));
-            this.player.addEventListener('ended', this.onEnded.bind(this));
-            this.player.addEventListener('loaded', () => {
-                // console.log('Shaka Player: Video loaded');
+            console.log('Attempting to attach Shaka Player event listeners');
+            this.tryAttachListeners();
+        }
+    
+        tryAttachListeners() {
+            const videoElement = this.player.getMediaElement();
+            if (videoElement) {
+                console.log('Video element found, attaching listeners');
+                this.attachListenersToVideo(videoElement);
+                if (this.retryInterval) {
+                    clearInterval(this.retryInterval);
+                }
+            } else {
+                console.log('Video element not found, will retry');
+                if (!this.retryInterval) {
+                    this.retryInterval = setInterval(() => {
+                        this.retryCount++;
+                        if (this.retryCount > this.maxRetries) {
+                            console.error('Max retries reached, unable to attach listeners');
+                            clearInterval(this.retryInterval);
+                            return;
+                        }
+                        this.tryAttachListeners();
+                    }, 500); // Riprova ogni 500ms
+                }
+            }
+        }
+    
+        attachListenersToVideo(videoElement) {
+            videoElement.addEventListener('play', () => {
+                // console.log('Video started playing');
+                this.onPlay();
             });
+    
+            videoElement.addEventListener('pause', () => {
+                // console.log('Video paused');
+                this.onPause();
+            });
+    
+            videoElement.addEventListener('ended', () => {
+                // console.log('Video ended');
+                this.onEnded();
+            });
+    
+            videoElement.addEventListener('loadedmetadata', () => {
+                // console.log('Video metadata loaded');
+            });
+    
+            // Aggiungi listener per eventi specifici di Shaka Player, se necessario
+            this.player.addEventListener('error', (event) => {
+                // console.error('Shaka Player: Error event', event);
+            });
+    
+            // console.log('All event listeners attached successfully');
         }
-
+    
         isPlaying() {
-            return !this.player.paused;
+            const videoElement = this.player.getMediaElement();
+            return videoElement ? !videoElement.paused : false;
         }
-
+    
         getCurrentTime() {
-            return this.player.currentTime;
+            const videoElement = this.player.getMediaElement();
+            return videoElement ? videoElement.currentTime : 0;
         }
-
+    
         getDuration() {
-            return this.player.duration;
+            const videoElement = this.player.getMediaElement();
+            return videoElement ? videoElement.duration : 0;
         }
-
+    
         destroy() {
             super.destroy();
-            this.player.removeEventListener('play', this.onPlay);
-            this.player.removeEventListener('pause', this.onPause);
-            this.player.removeEventListener('ended', this.onEnded);
+            // console.log('Removing Shaka Player event listeners');
+            if (this.retryInterval) {
+                clearInterval(this.retryInterval);
+            }
+            const videoElement = this.player.getMediaElement();
+            if (videoElement) {
+                videoElement.removeEventListener('play', this.onPlay);
+                videoElement.removeEventListener('pause', this.onPause);
+                videoElement.removeEventListener('ended', this.onEnded);
+            }
+            this.player.removeEventListener('error', this.onError);
         }
     }
 

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teyuto Analytics with Shaka Player (MP4 Support)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.5/shaka-player.compiled.js"></script>
+    <script src="../src/TeyutoPlayerAnalytics.js"></script>
+</head>
+<body>
+    <video id="video" width="640" height="360" controls autoplay></video>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const video = document.getElementById('video');
+        
+        // Install built-in polyfills to patch browser incompatibilities
+        shaka.polyfill.installAll();
+
+        // Check to see if the browser supports the basic APIs Shaka needs
+        if (shaka.Player.isBrowserSupported()) {
+            // Initialize Shaka Player
+            const player = new shaka.Player(video);
+
+            // Configure Shaka Player
+            player.configure({
+                streaming: {
+                    bufferingGoal: 60,
+                    rebufferingGoal: 15,
+                    bufferBehind: 30,
+                },
+                abr: {
+                    enabled: false  // Disable ABR for MP4 files
+                }
+            });
+
+            // Try to load the MP4 file
+            player.load('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4').then(function() {
+                console.log('The video has now been loaded!');
+            }).catch(onError);
+
+            // Initialize Teyuto Analytics
+            const analytics = new TeyutoPlayerAnalytics.TeyutoShakaPlayerAdapter('your-channel-public', 'user-token');
+            analytics.init(player, 'video-id');
+
+            // Optional: Log when analytics events occur
+            video.addEventListener('play', function() {
+                console.log('Video started playing');
+            });
+
+            video.addEventListener('pause', function() {
+                console.log('Video paused');
+            });
+
+            video.addEventListener('ended', function() {
+                console.log('Video ended');
+            });
+
+            // Error handling function
+            function onError(error) {
+                console.error('Error code', error.code, 'object', error);
+                // You can add more specific error handling here
+            }
+
+            // Clean up on page unload
+            window.addEventListener('beforeunload', function() {
+                analytics.destroy();
+                player.destroy();
+            });
+        } else {
+            console.error('Browser not supported!');
+        }
+    });
+    </script>
+</body>
+</html>

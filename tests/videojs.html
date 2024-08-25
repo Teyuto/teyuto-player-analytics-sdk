@@ -10,7 +10,7 @@
 </head>
 <body>
     <video id="my-video" class="video-js" controls preload="auto" width="640" height="360">
-        <source src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" type="application/x-mpegURL">
+        <source src="https://streams.teyuto.tv/videos/113004_1-41811/master.m3u8" type="application/x-mpegURL">
     </video>
 
     <script>
@@ -34,7 +34,7 @@
             player.ready(function() {
                 console.log('Video.js player is ready');
                 console.log('Initializing Teyuto Analytics');
-                var analytics = new TeyutoPlayerAnalytics.VideoJsAdapter('your-channel-public','user-token');
+                var analytics = new TeyutoPlayerAnalytics.TeyutoVideoJsAdapter('your-channel-public','user-token');
                 analytics.init(player, 'video-id');
 
                 player.on('loadedmetadata', function() {

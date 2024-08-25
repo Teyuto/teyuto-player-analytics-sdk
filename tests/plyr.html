@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teyuto Analytics with Plyr Example</title>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.2/plyr.css" />
+    <script src="https://cdn.plyr.io/3.7.2/plyr.polyfilled.js"></script>
+    <script src="../src/TeyutoPlayerAnalytics.js"></script>
+</head>
+<body>
+    <video id="player" playsinline controls>
+        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+    </video>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const video = document.getElementById('player');
+        
+        // Initialize Plyr
+        const player = new Plyr(video, {
+            // Plyr options here
+        });
+
+        // Initialize Teyuto Analytics
+        const analytics = new TeyutoPlayerAnalytics.TeyutoPlyrAdapter('your-channel-public', 'user-token');
+        analytics.init(player, 'video-id');
+
+        // Optional: Log when analytics events occur
+        player.on('play', function() {
+            console.log('Video started playing');
+        });
+
+        player.on('pause', function() {
+            console.log('Video paused');
+        });
+
+        player.on('ended', function() {
+            console.log('Video ended');
+        });
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', function() {
+            analytics.destroy();
+            player.destroy();
+        });
+    });
+    </script>
+</body>
+</html>
