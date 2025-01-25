@@ -36,6 +36,7 @@
             this.videoId = videoId;
             this.attachEventListeners();
             this.startUpdateInterval();
+            console.log('TeyutoPlayerAnalytics initialized successfully');
         }
 
         attachEventListeners() {

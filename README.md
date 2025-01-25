@@ -36,7 +36,7 @@ Include the SDK in your HTML:
 Install via npm:
 
 ```bash
-npm install teyuto-player-analytics
+npm install @teyuto/teyuto-player-analytics
 ```
 
 ## Usage
@@ -46,7 +46,7 @@ npm install teyuto-player-analytics
 #### With Video.js
 
 ```javascript
-import { TeyutoVideoJsAdapter } from 'teyuto-player-analytics';
+import { TeyutoVideoJsAdapter } from '@teyuto/teyuto-player-analytics';
 
 const player = videojs('my-video');
 const analytics = new TeyutoVideoJsAdapter('your-channel-public', 'user-token');
@@ -62,7 +62,7 @@ window.addEventListener('beforeunload', () => {
 #### With HLS.js
 
 ```javascript
-import { TeyutoHlsJsAdapter } from 'teyuto-player-analytics';
+import { TeyutoHlsJsAdapter } from '@teyuto/teyuto-player-analytics';
 
 const video = document.getElementById('video');
 const hls = new Hls();
@@ -82,7 +82,7 @@ window.addEventListener('beforeunload', () => {
 #### With Plyr
 
 ```javascript
-import { TeyutoPlyrAdapter } from 'teyuto-player-analytics';
+import { TeyutoPlyrAdapter } from '@teyuto/teyuto-player-analytics';
 
 const player = new Plyr('#player');
 const analytics = new TeyutoPlyrAdapter('your-channel-public', 'user-token');
@@ -98,7 +98,7 @@ window.addEventListener('beforeunload', () => {
 #### With Shaka Player
 
 ```javascript
-import { TeyutoShakaPlayerAdapter } from 'teyuto-player-analytics';
+import { TeyutoShakaPlayerAdapter } from '@teyuto/teyuto-player-analytics';
 
 const video = document.getElementById('video');
 const player = new shaka.Player(video);

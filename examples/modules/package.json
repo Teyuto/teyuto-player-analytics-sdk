@@ -1,0 +1,16 @@
+{
+    "name": "video-analytics-test",
+    "version": "1.0.0",
+    "type": "module",
+    "dependencies": {
+      "video.js": "^7.20.3",
+      "@teyuto/teyuto-player-analytics": "latest"
+    },
+    "devDependencies": {
+      "vite": "^5.0.0"
+    },
+    "scripts": {
+      "dev": "vite",
+      "build": "vite build"
+    }
+  }
