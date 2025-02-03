@@ -80,6 +80,8 @@
                 body: formData,
                 headers: headers
             });
+
+            this.secondsPlayed = 0;
         }
 
         timeEnter(time) {
